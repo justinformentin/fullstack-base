@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { createPortal } from "react-dom";
+import PropTypes from "prop-types";
 import "./Modal.css";
 
 const Modal = ({ isModalVisible, hide, options, children }) => {
@@ -79,9 +80,7 @@ export const useModal = options => {
     if (event.keyCode !== 27 || (options && options.keyboardClose === false))
       return;
     toggle();
-    if (options && options.onEscapeKeyDown) {
-      options.onEscapeKeyDown();
-    }
+    options && options.onEscapeKeyDown && options.onEscapeKeyDown();
   }
 
   useEffect(() => {
@@ -110,8 +109,21 @@ export const useModal = options => {
   ];
 };
 
+useModal.PropTypes = {
+  options: PropTypes.shape({
+    title: PropTypes.string,
+    closeButton: PropTypes.bool,
+    overlayClose: PropTypes.bool,
+    onOverlayClicked: PropTypes.func,
+    keyboardClose: PropTypes.func,
+    onEscapeKeyDown: PropTypes.func,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func
+  })
+};
 
-
-function shortid(){
-  return ("0000" + ((Math.random() * Math.pow(36, 6)) | 0).toString(36)).slice(-6);
+function shortid() {
+  return ("0000" + ((Math.random() * Math.pow(36, 6)) | 0).toString(36)).slice(
+    -6
+  );
 }
