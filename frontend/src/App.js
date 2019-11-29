@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal, { useModal } from "./components/Modal";
 import TodoForm from "./components/TodoForm";
-
+import { deletePromise, putPromise, postPromise } from "./utils/requests";
 const App = () => {
   const defaultFormData = { title: "", description: "", completed: false };
   const [viewCompleted, setViewCompleted] = useState(false);
@@ -77,18 +77,34 @@ const App = () => {
       );
     });
   };
-  const handleSubmit = item => {
+
+  // const handlePost = async item => {
+  //   await postPromise("todos/", item);
+  //   refreshList();
+  //   toggleModal();
+  // };
+
+  const handleSubmit = async item => {
+    try {
+      let response;
       if (item.id) {
-        axios.put(`todos/${item.id}/`, item);
+        response = await putPromise(`todos/${item.id}/`, item);
       } else {
-        axios.post("todos/", item);
+        response = await postPromise("todos/", item);
       }
-      refreshList();
-      toggleModal();
+      if (response.status >= 200 && response.status < 300) {
+        refreshList();
+        toggleModal();
+      }
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
-  const handleDelete = item =>
-    axios.delete(`todos/${item.id}`).then(() => refreshList());
+  const handleDelete = async item => {
+    await deletePromise(`todos/${item.id}`);
+    refreshList();
+  };
 
   const resetForm = () => setFormData(defaultFormData);
 
@@ -121,6 +137,7 @@ const App = () => {
       <Modal {...modal}>
         <TodoForm
           activeItem={formData}
+          // onSave={formData.id ? handleEdit : handlePost}
           onSave={handleSubmit}
           onClose={toggleModal}
         />
