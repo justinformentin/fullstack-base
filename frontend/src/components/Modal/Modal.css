@@ -1,0 +1,154 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.modal-container {
+  display: inline-table;
+  position: fixed;
+  padding: 0.5rem;
+  top: 30%;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+@media (min-width: 1000px) {
+  .modal-container {
+    top: 0 !important;
+    display: flex !important;
+    align-items: center;
+  }
+}
+
+.modal-wrapper {
+  z-index: 100;
+  background: white;
+  position: relative;
+  margin: 1.75rem auto;
+  border-radius: 3px;
+  pointer-events: none;
+  min-width: 100%;
+  max-width: 500px;
+}
+
+@media (min-width: 500px) {
+  .modal-wrapper {
+    min-width: 500px !important;
+  }
+}
+
+.modal-content {
+  pointer-events: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+.modal-header .modal-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.modal-close-button{
+position: absolute;
+top: 0;
+right: 0;
+padding: 0.5em;
+line-height: 1;
+background: #f6f6f7;
+border: 0;
+box-shadow: 0;
+cursor: pointer;
+}
+
+/* .modal-close-button {
+  padding: 1rem;
+  background: white;
+  margin: -1rem -1rem -1rem auto;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  opacity: 0.3;
+  cursor: pointer;
+  border: none;
+  outline: 0 !important;
+} */
+
+.modal-close-button:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.modal-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+
+.modal-body-style {
+  padding: 0.5rem 1.5rem;
+}
+
+@media (min-width: 1025px) {
+  .modal-open {
+    padding-right: 15px;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+/* Animation Classes */
+
+.modal-animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 30%, 0);
+    transform: translate3d(0, 30%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 30%, 0);
+    transform: translate3d(0, 30%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
