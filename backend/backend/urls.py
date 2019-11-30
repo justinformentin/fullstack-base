@@ -23,6 +23,7 @@ from todo import views
 router = DefaultRouter()
 
 router.register(r'todos', views.TodoView)
+router.register(r'customers', views.CustomerViewSet)
 router.register(r'snippets', views.SnippetViewSet)
 router.register(r'users', views.UserViewSet)
 
