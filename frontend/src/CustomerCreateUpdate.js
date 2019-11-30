@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { customersService } from "./CustomersService";
 
-const CustomerCreateUpdate = ({ match }) => {
+const CustomerCreateUpdate = ({ history, location, match }) => {
+  console.log("match", match);
+  console.log("location", location);
+  console.log("history", history);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     phone: "",
     address: "",
-    description: ""
+    description: "",
+    logo_url: ''
   });
 
   useEffect(() => {
     if (match && match.params && match.params.pk) {
-      customersService.getCustomer(match.params.pk).then(c => {
+      customersService.getCustomer(match.params.pk).then(customer => {
         setFormData({
-          first_name: c.first_name,
-          last_name: c.last_name,
-          email: c.email,
-          phone: c.phone,
-          address: c.address,
-          description: c.description
+          ...customer
         });
       });
     }
@@ -76,6 +75,7 @@ const CustomerCreateUpdate = ({ match }) => {
           type="text"
           name="first_name"
           onChange={handleChange}
+          value={formData.first_name}
         />
 
         <label>Last Name:</label>
@@ -83,6 +83,16 @@ const CustomerCreateUpdate = ({ match }) => {
           className="form-control"
           type="text"
           name="last_name"
+          value={formData.last_name}
+          onChange={handleChange}
+        />
+
+        <label>Logo Url:</label>
+        <input
+          className="form-control"
+          type="text"
+          name="logo_url"
+          value={formData.logo_url}
           onChange={handleChange}
         />
 
@@ -91,6 +101,7 @@ const CustomerCreateUpdate = ({ match }) => {
           className="form-control"
           type="text"
           name="phone"
+          value={formData.phone}
           onChange={handleChange}
         />
 
@@ -99,6 +110,7 @@ const CustomerCreateUpdate = ({ match }) => {
           className="form-control"
           type="text"
           name="email"
+          value={formData.email}
           onChange={handleChange}
         />
 
@@ -107,11 +119,17 @@ const CustomerCreateUpdate = ({ match }) => {
           className="form-control"
           type="text"
           name="address"
+          value={formData.address}
           onChange={handleChange}
         />
 
         <label>Description:</label>
-        <textarea className="form-control" name="description" onChange={handleChange}></textarea>
+        <textarea
+          className="form-control"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+        ></textarea>
 
         <input className="btn btn-primary" type="submit" value="Submit" />
       </div>

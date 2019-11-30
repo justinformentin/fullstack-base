@@ -13,12 +13,12 @@ export const customersService = {
   },
 
   getCustomer: pk => {
-    const url = `${API_URL}/customers/${pk}`;
+    const url = `${API_URL}/customers/${pk}/`;
     return axios.get(url).then(response => response.data);
   },
 
   deleteCustomer: customer => {
-    const url = `${API_URL}/customers/${customer.pk}`;
+    const url = `${API_URL}/customers/${customer.pk}/`;
     return axios.delete(url);
   },
 
@@ -28,7 +28,7 @@ export const customersService = {
   },
 
   updateCustomer: customer => {
-    const url = `${API_URL}/customers/${customer.pk}`;
+    const url = `${API_URL}/customers/${customer.pk}/`;
     return axios.put(url, customer);
   }
 };

@@ -7,15 +7,13 @@
 // export default App;
 
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { Route, Link } from "react-router-dom";
-
+import { BrowserRouter, Route } from "react-router-dom";
 import CustomersList from "./CustomersList";
 import CustomerCreateUpdate from "./CustomerCreateUpdate";
 
 
-const BaseLayout = () => (
-  <div className="container-fluid">
+const BaseLayout = () => {
+  return <div className="container-fluid">
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="#">
         Django React Demo
@@ -49,7 +47,7 @@ const BaseLayout = () => (
       <Route path="/customer/" exact component={CustomerCreateUpdate} />
     </div>
   </div>
-);
+};
 
 class App extends Component {
   render() {

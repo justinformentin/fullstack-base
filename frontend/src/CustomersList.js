@@ -5,13 +5,43 @@ const CustomersList = ({}) => {
   const [customers, setCustomers] = useState([]);
   const [nextPage, setNextPage] = useState("");
 
-  console.log('customers', customers)
+  const getUser = () =>
+    new Promise(resolve =>
+      fetch("https://randomuser.me/api/")
+        .then(res => res.json())
+        .then(res => resolve(res))
+    );
+
+  const fetchRand = () => {
+    getUser().then(res => {
+      console.log("res", res);
+      const c = res.results[0];
+      const l = c.location;
+      const address = `${l.street.number} ${l.street.name} ${l.state} ${l.postcode}`;
+      const customer = {
+        first_name: c.name.first,
+        last_name: c.name.first,
+        // logo_url: c.picture.large,
+        email: c.email,
+        phone: c.phone,
+        description: `Randomly generated user ${c.login.salt}`,
+        address
+      };
+      console.log('customer', customer)
+      customersService
+        .createCustomer(customer)
+        .then(res => console.log("Succesfully Created User", res))
+        .catch(err => console.warn(err));
+    });
+  };
+
+  console.log("customers", customers);
   useEffect(() => {
     fetchInitialCustomers();
   }, []);
 
   const fetchInitialCustomers = async () => {
-    const {results, next} = await customersService.getCustomers();
+    const { results, next } = await customersService.getCustomers();
     setCustomers(results);
     setNextPage(next);
   };
@@ -26,7 +56,9 @@ const CustomersList = ({}) => {
   };
 
   const loadNextPage = async () => {
-    const { results, next} = await customersService.getCustomersByURL(nextPage);
+    const { results, next } = await customersService.getCustomersByURL(
+      nextPage
+    );
     setCustomers(results);
     setNextPage(next);
   };
@@ -67,6 +99,9 @@ const CustomersList = ({}) => {
       </table>
       <button className="btn btn-primary" onClick={loadNextPage}>
         Next
+      </button>
+      <button className="btn btn-primary" onClick={fetchRand}>
+        Fetch Random
       </button>
     </div>
   );
