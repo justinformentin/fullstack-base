@@ -1,11 +1,39 @@
+from django.contrib.auth.models import User
+from rest_framework import permissions, renderers, viewsets
+from rest_framework.decorators import detail_route
+from rest_framework.response import Response
+from .permissions import IsOwnerOrReadOnly
+from .serializers import (TodoSerializer, SnippetSerializer, UserSerializer)
+from .models import (Todo, Customer, Snippet)
 
-# todo/views.py
+class TodoView(viewsets.ModelViewSet):
+	serializer_class = TodoSerializer
+	queryset = Todo.objects.all()
 
-from django.shortcuts import render
-from rest_framework import viewsets          # add this
-from .serializers import TodoSerializer      # add this
-from .models import Todo                     # add this
-        
-class TodoView(viewsets.ModelViewSet):       # add this
-  serializer_class = TodoSerializer          # add this
-  queryset = Todo.objects.all()              # add this
+class SnippetViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    Additionally we also provide an extra `highlight` action.
+    """
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly, )
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
