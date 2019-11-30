@@ -1,6 +1,6 @@
 
 /* frontend/src/index.css  */
- 
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css';
 body {
   margin: 0;
   padding: 0;
@@ -9,7 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #282c34;
+  /* background-color: #282c34; */
 }
 .todo-title {
   cursor: pointer;
