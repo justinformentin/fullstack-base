@@ -1,15 +1,34 @@
+"""djangoreactproject URL Configuration
 
-# backend/urls.py
-
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
 from django.contrib import admin
-from django.urls import path, include                 # add this
-from rest_framework import routers                    # add this
-from todo import views                            # add this
-        
-router = routers.DefaultRouter()                      # add this
-router.register(r'todos', views.TodoView, 'todo')     # add this
-        
+# from django.urls import path, include
+from django.urls import path
+from rest_framework.routers import DefaultRouter
+from django.conf.urls import include, url
+from todo import views
+
+router = DefaultRouter()
+
+router.register(r'todos', views.TodoView)
+router.register(r'snippets', views.SnippetViewSet)
+router.register(r'users', views.UserViewSet)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),           
-    path('api/', include(router.urls))                # add this
+	path('admin/', admin.site.urls),
+    url(r'^', include(router.urls))
+	# url(r'^api/customers/$', views.customers_list, name='customer-list'),
+	# url(r'^api/customers/(?P<pk>[0-9]+)$', views.customers_detail name='customer-detail'),
 ]
